@@ -1,9 +1,9 @@
 import React from 'react';
-import { FlatList, Text } from 'react-native';
+import { FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 import ProductItem from '../../components/shop/ProductItem';
 
-const ProductsOverviewScreen = ({}) => {
+const ProductsOverviewScreen = ({ navigation }) => {
   const products = useSelector((state) => state.products.availableProducts);
   return (
     <FlatList
@@ -13,7 +13,9 @@ const ProductsOverviewScreen = ({}) => {
           image={item.imageUrl}
           title={item.title}
           price={item.price}
-          onViewDetail={() => {}}
+          onViewDetail={() => {
+            navigation.navigate('Detail', { id: item.id });
+          }}
           onAddToCard={() => {}}
         />
       )}
