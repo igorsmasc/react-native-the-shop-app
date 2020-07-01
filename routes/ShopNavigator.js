@@ -1,11 +1,14 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { Ionicons } from '@expo/vector-icons';
 
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
 import Colors from '../constants/Colors';
 import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
 import CartScreen from '../screens/shop/CartScreen';
+import OrdersScreen from '../screens/shop/OrdersScreen';
 
 const defaultStackNavOptions = {
   headerStyle: {
@@ -21,8 +24,9 @@ const defaultStackNavOptions = {
 };
 
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
-const ShopNavigator = () => {
+const ProductsNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={defaultStackNavOptions}
@@ -43,9 +47,40 @@ const ShopNavigator = () => {
       <Stack.Screen
         name="Cart"
         component={CartScreen}
-        options={{ title: 'Cart' }}
+        options={{ title: 'Your Cart' }}
       />
     </Stack.Navigator>
+  );
+};
+
+const OrdersNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={defaultStackNavOptions} sc>
+      <Stack.Screen name="Orders" component={OrdersScreen} />
+    </Stack.Navigator>
+  );
+};
+
+const ShopNavigator = () => {
+  return (
+    <Drawer.Navigator
+      drawerContentOptions={{ activeTintColor: Colors.primary }}
+    >
+      <Drawer.Screen
+        name="Products"
+        component={ProductsNavigator}
+        options={{
+          drawerIcon: (drawerConfig) => (
+            <Ionicons
+              name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+              size={23}
+              color={drawerConfig.tintColor}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen name="Your Orders" component={OrdersNavigator} />
+    </Drawer.Navigator>
   );
 };
 
