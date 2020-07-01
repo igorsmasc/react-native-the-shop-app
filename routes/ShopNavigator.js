@@ -72,6 +72,19 @@ const ShopNavigator = () => {
         options={{
           drawerIcon: (drawerConfig) => (
             <Ionicons
+              name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+              size={23}
+              color={drawerConfig.tintColor}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Your Orders"
+        component={OrdersNavigator}
+        options={{
+          drawerIcon: (drawerConfig) => (
+            <Ionicons
               name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
               size={23}
               color={drawerConfig.tintColor}
@@ -79,7 +92,6 @@ const ShopNavigator = () => {
           ),
         }}
       />
-      <Drawer.Screen name="Your Orders" component={OrdersNavigator} />
     </Drawer.Navigator>
   );
 };
