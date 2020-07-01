@@ -6,16 +6,18 @@ import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 
 import productsReducer from './store/reducers/products';
+import cartReducer from './store/reducers/cart';
 import ShopNavigator from './routes/ShopNavigator';
 
 const rootReducer = combineReducers({
   products: productsReducer,
+  cart: cartReducer,
 });
 
 const store = createStore(rootReducer);
 
 const fetchFonts = () => {
-  Font.loadAsync({
+  return Font.loadAsync({
     'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
     'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
   });
@@ -32,7 +34,6 @@ export default function App() {
       />
     );
   }
-
   return (
     <Provider store={store}>
       <NavigationContainer>
