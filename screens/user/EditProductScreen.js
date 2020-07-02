@@ -9,12 +9,13 @@ import {
 } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../../components/UI/HeaderButton';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import * as productsActions from '../../store/actions/products';
 
 const EditProductScreen = ({ navigation, route }) => {
   const productId = route.params ? route.params.productId : null;
+  const dispatch = useDispatch();
 
   const editedProduct = useSelector((state) =>
     state.products.userProducts.find((prod) => prod.id === productId),
@@ -30,8 +31,21 @@ const EditProductScreen = ({ navigation, route }) => {
   );
 
   const submitHandler = useCallback(() => {
-    console.log('Submitting');
-  }, []);
+    if (productId) {
+      dispatch(
+        productsActions.updateProduct(productId, title, description, imageUrl),
+      );
+    } else {
+      dispatch(
+        productsActions.createProduct(
+          title,
+          description,
+          imageUrl,
+          parseFloat(price),
+        ),
+      );
+    }
+  }, [title, description, imageUrl, price, productId, dispatch]);
 
   useEffect(() => {
     navigation.setOptions({
