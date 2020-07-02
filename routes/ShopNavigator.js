@@ -9,6 +9,7 @@ import Colors from '../constants/Colors';
 import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
+import UserProductsScreen from '../screens/user/UserProductsScreen';
 
 const defaultStackNavOptions = {
   headerStyle: {
@@ -61,6 +62,14 @@ const OrdersNavigator = () => {
   );
 };
 
+const AdminNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={defaultStackNavOptions} sc>
+      <Stack.Screen name="Admin" component={UserProductsScreen} />
+    </Stack.Navigator>
+  );
+};
+
 const ShopNavigator = () => {
   return (
     <Drawer.Navigator
@@ -86,6 +95,19 @@ const ShopNavigator = () => {
           drawerIcon: (drawerConfig) => (
             <Ionicons
               name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+              size={23}
+              color={drawerConfig.tintColor}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Admin"
+        component={AdminNavigator}
+        options={{
+          drawerIcon: (drawerConfig) => (
+            <Ionicons
+              name={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
               size={23}
               color={drawerConfig.tintColor}
             />
