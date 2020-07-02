@@ -45,7 +45,8 @@ const EditProductScreen = ({ navigation, route }) => {
         ),
       );
     }
-  }, [title, description, imageUrl, price, productId, dispatch]);
+    navigation.goBack();
+  }, [title, description, imageUrl, price, productId, dispatch, navigation]);
 
   useEffect(() => {
     navigation.setOptions({
