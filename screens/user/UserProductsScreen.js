@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react';
-import { FlatList, Platform } from 'react-native';
-import { useSelector } from 'react-redux';
+import { FlatList, Platform, Button } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 import ProductItem from '../../components/shop/ProductItem';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import HeaderButton from '../../components/UI/HeaderButton';
+import Colors from '../../constants/Colors';
+import * as productsActions from '../../store/actions/products';
 
 const UserProductsScreen = ({ navigation }) => {
   const userProducts = useSelector((state) => state.products.userProducts);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     navigation.setOptions({
@@ -33,9 +36,17 @@ const UserProductsScreen = ({ navigation }) => {
           image={item.imageUrl}
           title={item.title}
           price={item.price}
-          onViewDetail={() => {}}
-          onAddToCard={() => {}}
-        />
+          onSelect={() => {}}
+        >
+          <Button color={Colors.primary} title="Edit" onPress={() => {}} />
+          <Button
+            color={Colors.primary}
+            title="Delete"
+            onPress={() => {
+              dispatch(productsActions.deleteProduct(item.id));
+            }}
+          />
+        </ProductItem>
       )}
     />
   );
