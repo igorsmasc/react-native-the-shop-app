@@ -29,7 +29,11 @@ const OrdersScreen = ({ navigation }) => {
     <FlatList
       data={orders}
       renderItem={({ item }) => (
-        <OrderItem amount={item.totalAmount} date={item.readableDate} />
+        <OrderItem
+          amount={item.totalAmount}
+          date={item.readableDate}
+          items={item.items}
+        />
       )}
     />
   );
