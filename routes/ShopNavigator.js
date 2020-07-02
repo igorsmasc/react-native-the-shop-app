@@ -10,6 +10,7 @@ import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
 import UserProductsScreen from '../screens/user/UserProductsScreen';
+import EditProductScreen from '../screens/user/EditProductScreen';
 
 const defaultStackNavOptions = {
   headerStyle: {
@@ -66,6 +67,7 @@ const AdminNavigator = () => {
   return (
     <Stack.Navigator screenOptions={defaultStackNavOptions} sc>
       <Stack.Screen name="Admin" component={UserProductsScreen} />
+      <Stack.Screen name="EditProduct" component={EditProductScreen} />
     </Stack.Navigator>
   );
 };

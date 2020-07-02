@@ -12,6 +12,10 @@ const UserProductsScreen = ({ navigation }) => {
   const userProducts = useSelector((state) => state.products.userProducts);
   const dispatch = useDispatch();
 
+  const editProductHandler = (id) => {
+    navigation.navigate('EditProduct', { id: id });
+  };
+
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -21,6 +25,17 @@ const UserProductsScreen = ({ navigation }) => {
             iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
             onPress={() => {
               navigation.toggleDrawer();
+            }}
+          />
+        </HeaderButtons>
+      ),
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item
+            title="Add"
+            iconName={Platform.OS === 'android' ? 'md-add' : 'ios-add'}
+            onPress={() => {
+              navigation.navigate('EditProduct');
             }}
           />
         </HeaderButtons>
@@ -36,9 +51,17 @@ const UserProductsScreen = ({ navigation }) => {
           image={item.imageUrl}
           title={item.title}
           price={item.price}
-          onSelect={() => {}}
+          onSelect={() => {
+            editProductHandler(item.id);
+          }}
         >
-          <Button color={Colors.primary} title="Edit" onPress={() => {}} />
+          <Button
+            color={Colors.primary}
+            title="Edit"
+            onPress={() => {
+              editProductHandler(item.id);
+            }}
+          />
           <Button
             color={Colors.primary}
             title="Delete"

@@ -3,7 +3,7 @@ import { DELETE_PRODUCT } from '../actions/products';
 
 const initialState = {
   availableProducts: PRODUCTS,
-  userProducts: PRODUCTS.filter((prod) => prod.ownerId == 'u1'),
+  userProducts: PRODUCTS.filter((prod) => prod.ownerId === 'u1'),
 };
 
 export default (state = initialState, action) => {
@@ -14,7 +14,7 @@ export default (state = initialState, action) => {
         userProducts: state.userProducts.filter(
           (prod) => prod.id !== action.pid,
         ),
-        availableProducts: state.userProducts.filter(
+        availableProducts: state.availableProducts.filter(
           (prod) => prod.id !== action.pid,
         ),
       };
