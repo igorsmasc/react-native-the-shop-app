@@ -128,8 +128,8 @@ const EditProductScreen = ({ navigation, route }) => {
   return (
     <KeyboardAvoidingView
       style={styles.keyboard}
-      behavior="padding"
-      keyboardVerticalOffset={100}
+      behavior="height"
+      keyboardVerticalOffset={70}
     >
       <ScrollView>
         <View style={styles.form}>
