@@ -26,7 +26,7 @@ export const signup = (email, password) => {
 
     console.log(resData);
 
-    dispatch({ type: SIGNUP });
+    dispatch({ type: SIGNUP, token: resData.idToken, userId: resData.localId });
   };
 };
 
@@ -50,8 +50,7 @@ export const login = (email, password) => {
     if (!response.ok) {
       const errorResponseData = await response.json();
       const errorId = errorResponseData.error.message;
-      let message;
-      console.log(errorId);
+      let message = 'Something went wrong!';
       switch (errorId) {
         case 'EMAIL_NOT_FOUND':
           message = 'This email could not be found!';
@@ -70,6 +69,6 @@ export const login = (email, password) => {
 
     console.log(resData);
 
-    dispatch({ type: LOGIN });
+    dispatch({ type: LOGIN, token: resData.idToken, userId: resData.localId });
   };
 };

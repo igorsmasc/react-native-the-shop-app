@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
+import { useSelector } from 'react-redux';
 
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
 import Colors from '../constants/Colors';
@@ -28,7 +29,6 @@ const defaultStackNavOptions = {
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
-const isLoggedIn = false;
 
 const ProductsNavigator = () => {
   return (
@@ -123,19 +123,19 @@ const ShopNavigator = () => {
 };
 
 const MainNavigator = () => {
+  const isLoggedIn = useSelector((state) => (state.auth.token ? true : false));
+
+  if (isLoggedIn) {
+    return <ShopNavigator />;
+  }
+
   return (
     <Stack.Navigator screenOptions={defaultStackNavOptions}>
-      {isLoggedIn ? (
-        <>
-          <Stack.Screen name="Home" component={ShopNavigator} />
-        </>
-      ) : (
-        <Stack.Screen
-          name="Auth"
-          component={AuthScreen}
-          options={{ title: 'Authenticate' }}
-        />
-      )}
+      <Stack.Screen
+        name="Auth"
+        component={AuthScreen}
+        options={{ title: 'Authenticate' }}
+      />
     </Stack.Navigator>
   );
 };
