@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useReducer, useCallback } from 'react';
 import {
   ScrollView,
   View,
@@ -7,12 +7,78 @@ import {
   Button,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useDispatch } from 'react-redux';
 
 import Input from '../../components/UI/Input';
 import Card from '../../components/UI/Card';
 import Colors from '../../constants/Colors';
+import * as authActions from '../../store/actions/auth';
+
+const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
+
+const formReducer = (state, action) => {
+  if (action.type === FORM_INPUT_UPDATE) {
+    const updatedValues = {
+      ...state.inputValues,
+      [action.input]: action.value,
+    };
+    const updatedValidities = {
+      ...state.inputValidities,
+      [action.input]: action.isValid,
+    };
+
+    let formIsValid = true;
+
+    for (const key in updatedValidities) {
+      formIsValid = formIsValid && updatedValidities[key];
+    }
+
+    return {
+      formIsValid: formIsValid,
+      inputValidities: updatedValidities,
+      inputValues: updatedValues,
+    };
+  }
+
+  return state;
+};
 
 const AuthScreen = ({}) => {
+  const dispatch = useDispatch();
+
+  const [formState, dispatchFormState] = useReducer(formReducer, {
+    inputValues: {
+      email: '',
+      password: '',
+    },
+    inputValidities: {
+      email: false,
+      password: false,
+    },
+    formIsValid: false,
+  });
+
+  const signupHandler = () => {
+    dispatch(
+      authActions.signup(
+        formState.inputValues.email,
+        formState.inputValues.password,
+      ),
+    );
+  };
+
+  const inputChangeHander = useCallback(
+    (inputIdentifier, inputValue, inputIsValid) => {
+      dispatchFormState({
+        type: FORM_INPUT_UPDATE,
+        value: inputValue,
+        isValid: inputIsValid,
+        input: inputIdentifier,
+      });
+    },
+    [dispatchFormState],
+  );
+
   return (
     <View style={styles.screen}>
       <LinearGradient colors={['#ffedff', '#ffe3ff']} style={styles.gradient}>
@@ -25,8 +91,8 @@ const AuthScreen = ({}) => {
               required
               email
               autoCapitalize="none"
-              errorMessage="Please enter a valid email address"
-              onInputChange={() => {}}
+              errorText="Please enter a valid email address"
+              onInputChange={inputChangeHander}
               initialValue=""
             />
             <Input
@@ -36,10 +102,9 @@ const AuthScreen = ({}) => {
               secureTextEntry
               required
               minLength={5}
-              email
               autoCapitalize="none"
-              errorMessage="Please enter a valid password"
-              onInputChange={() => {}}
+              errorText="Please enter a valid password"
+              onInputChange={inputChangeHander}
               initialValue=""
             />
             <View style={styles.buttonContainer}>
@@ -49,7 +114,7 @@ const AuthScreen = ({}) => {
               <Button
                 title="Sign up"
                 color={Colors.accent}
-                onPress={() => {}}
+                onPress={signupHandler}
               />
             </View>
           </ScrollView>
