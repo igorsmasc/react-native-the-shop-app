@@ -1,9 +1,13 @@
-import React, { useEffect } from 'react';
-import { Platform } from 'react-native';
+import React from 'react';
+import { Platform, Button } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+} from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
 import Colors from '../constants/Colors';
@@ -14,6 +18,7 @@ import UserProductsScreen from '../screens/user/UserProductsScreen';
 import EditProductScreen from '../screens/user/EditProductScreen';
 import AuthScreen from '../screens/user/AuthScreen';
 import StartupScreen from '../screens/StartupScreen';
+import * as authActions from '../store/actions/auth';
 
 const defaultStackNavOptions = {
   headerStyle: {
@@ -75,11 +80,28 @@ const AdminNavigator = () => {
   );
 };
 
+const logoutButton = (props, dispatch) => {
+  return (
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
+      <Button
+        title="Logout"
+        color={Colors.primary}
+        onPress={() => {
+          dispatch(authActions.logout());
+        }}
+      />
+    </DrawerContentScrollView>
+  );
+};
+
 const ShopNavigator = () => {
+  const dipatch = useDispatch();
   return (
     <Drawer.Navigator
       drawerContentOptions={{ activeTintColor: Colors.primary }}
       initialRouteName="Products"
+      drawerContent={(props) => logoutButton(props, dipatch)}
     >
       <Drawer.Screen
         name="Products"
@@ -136,7 +158,11 @@ const MainNavigator = () => {
       screenOptions={defaultStackNavOptions}
       initialRouteName="Startup"
     >
-      <Stack.Screen name="Startup" component={StartupScreen} />
+      <Stack.Screen
+        name="Startup"
+        component={StartupScreen}
+        options={{ title: 'Loading...' }}
+      />
       <Stack.Screen
         name="Auth"
         component={AuthScreen}
