@@ -78,6 +78,7 @@ const ShopNavigator = () => {
   return (
     <Drawer.Navigator
       drawerContentOptions={{ activeTintColor: Colors.primary }}
+      initialRouteName="Products"
     >
       <Drawer.Screen
         name="Products"
