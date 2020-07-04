@@ -11,6 +11,7 @@ import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
 import UserProductsScreen from '../screens/user/UserProductsScreen';
 import EditProductScreen from '../screens/user/EditProductScreen';
+import AuthScreen from '../screens/user/AuthScreen';
 
 const defaultStackNavOptions = {
   headerStyle: {
@@ -27,6 +28,7 @@ const defaultStackNavOptions = {
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
+const isLoggedIn = false;
 
 const ProductsNavigator = () => {
   return (
@@ -57,7 +59,7 @@ const ProductsNavigator = () => {
 
 const OrdersNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={defaultStackNavOptions} sc>
+    <Stack.Navigator screenOptions={defaultStackNavOptions}>
       <Stack.Screen name="Orders" component={OrdersScreen} />
     </Stack.Navigator>
   );
@@ -65,7 +67,7 @@ const OrdersNavigator = () => {
 
 const AdminNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={defaultStackNavOptions} sc>
+    <Stack.Navigator screenOptions={defaultStackNavOptions}>
       <Stack.Screen name="Admin" component={UserProductsScreen} />
       <Stack.Screen name="EditProduct" component={EditProductScreen} />
     </Stack.Navigator>
@@ -120,4 +122,22 @@ const ShopNavigator = () => {
   );
 };
 
-export default ShopNavigator;
+const MainNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={defaultStackNavOptions}>
+      {isLoggedIn ? (
+        <>
+          <Stack.Screen name="Home" component={ShopNavigator} />
+        </>
+      ) : (
+        <Stack.Screen
+          name="Auth"
+          component={AuthScreen}
+          options={{ title: 'Authenticate' }}
+        />
+      )}
+    </Stack.Navigator>
+  );
+};
+
+export default MainNavigator;
