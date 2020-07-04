@@ -13,6 +13,7 @@ import OrdersScreen from '../screens/shop/OrdersScreen';
 import UserProductsScreen from '../screens/user/UserProductsScreen';
 import EditProductScreen from '../screens/user/EditProductScreen';
 import AuthScreen from '../screens/user/AuthScreen';
+import StartupScreen from '../screens/StartupScreen';
 
 const defaultStackNavOptions = {
   headerStyle: {
@@ -131,7 +132,11 @@ const MainNavigator = () => {
   }
 
   return (
-    <Stack.Navigator screenOptions={defaultStackNavOptions}>
+    <Stack.Navigator
+      screenOptions={defaultStackNavOptions}
+      initialRouteName="Startup"
+    >
+      <Stack.Screen name="Startup" component={StartupScreen} />
       <Stack.Screen
         name="Auth"
         component={AuthScreen}
